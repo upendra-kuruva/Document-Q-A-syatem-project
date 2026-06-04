@@ -76,7 +76,7 @@ if uploaded_file is not None:
             context += chunks[i] + "\n"
 
         # Step 7: Generate AI Answer
-        st.subheader("🤖 AI Answer:")
+        st.subheader(" AI Answer:")
 
         try:
             response = client.chat.completions.create(
@@ -97,4 +97,4 @@ if uploaded_file is not None:
             st.write(answer)
 
         except Exception as e:
-            st.error(f"❌ Error: {e}")
+            st.error(f" Error: {e}")
