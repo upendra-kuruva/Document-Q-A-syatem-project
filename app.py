@@ -23,11 +23,10 @@ if not api_key:
 # Initialize the official Gemini Client
 client = genai.Client(api_key=api_key)
 
-# Custom Embedding Wrapper so LangChain can use the modern Gemini SDK
-# Update your class to use text-embedding-001
+
 class GeminiEmbeddings(Embeddings):
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
-        # Explicitly loop through each text chunk to guarantee one embedding per document
+        
         embeddings = []
         for text in texts:
             response = client.models.embed_content(
