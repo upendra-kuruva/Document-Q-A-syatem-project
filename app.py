@@ -27,15 +27,19 @@ client = genai.Client(api_key=api_key)
 # Update your class to use text-embedding-001
 class GeminiEmbeddings(Embeddings):
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
-        response = client.models.embed_content(
-            model="gemini-embedding-2-preview",  
-            contents=texts,
-        )
-        return [embedding.values for embedding in response.embeddings]
+        # Explicitly loop through each text chunk to guarantee one embedding per document
+        embeddings = []
+        for text in texts:
+            response = client.models.embed_content(
+                model="gemini-embedding-2-preview",
+                contents=text,
+            )
+            embeddings.append(response.embeddings[0].values)
+        return embeddings
 
     def embed_query(self, text: str) -> list[float]:
         response = client.models.embed_content(
-            model="gemini-embedding-2-preview",  
+            model="gemini-embedding-2-preview",
             contents=text,
         )
         return response.embeddings[0].values
